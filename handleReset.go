@@ -1,0 +1,17 @@
+package main
+
+import (
+	"context"
+	"fmt"
+)
+
+func handleReset(s *state, cmd command) error {
+	err := s.db.ResetUsers(context.Background())
+	if err != nil {
+		return err
+	}
+
+	fmt.Println("Database reset successful")
+
+	return nil
+}

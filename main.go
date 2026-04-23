@@ -19,6 +19,9 @@ func main() {
 
 	dbURL := cfg.DbURL
 	db, err := sql.Open("postgres", dbURL)
+	if err != nil {
+		log.Fatalf("error connecting to the database")
+	}
 
 	dbQueries := database.New(db)
 
@@ -31,13 +34,12 @@ func main() {
 		registeredCommands: make(map[string]func(*state, command) error),
 	}
 
-	c.register("login", handlerLogin)
+	c.register("login", handleLogin)
+	c.register("register", handleRegister)
+	c.register("reset", handleReset)
+	c.register("users", handleUsers)
 
 	args := os.Args
-
-	if len(args) <= 2 {
-		log.Fatalf("Not enough arguments")
-	}
 
 	cmdName := args[1]
 	arguments := args[2:]
@@ -47,7 +49,6 @@ func main() {
 		Args: arguments,
 	}
 	err = c.run(s, command)
-
 	if err != nil {
 		log.Fatal(err)
 	}
