@@ -10,16 +10,9 @@ import (
 	"github.com/google/uuid"
 )
 
-func handleAddFeed(s *state, cmd command) error {
+func handleAddFeed(s *state, cmd command, user database.User) error {
 	if len(cmd.Args) < 2 {
 		return errors.New("please provide a name and url")
-	}
-
-	currentUser := s.config.CurrentUserName
-
-	user, err := s.db.GetUser(context.Background(), currentUser)
-	if err != nil {
-		return err
 	}
 
 	newFeed := database.CreateFeedParams{
@@ -51,7 +44,7 @@ func handleAddFeed(s *state, cmd command) error {
 	fmt.Println("Feed created successfully")
 	fmt.Println(feed)
 	fmt.Println("Feed added to user's feeds")
-	fmt.Println(newFollow.FeedName, currentUser)
+	fmt.Println(newFollow.FeedName, user.Name)
 
 	return nil
 }

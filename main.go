@@ -39,10 +39,10 @@ func main() {
 	c.register("reset", handleReset)
 	c.register("users", handleUsers)
 	c.register("agg", handleAgg)
-	c.register("addfeed", handleAddFeed)
+	c.register("addfeed", middlewareLoggedIn(handleAddFeed))
 	c.register("feeds", handleFeeds)
-	c.register("follow", handleFollow)
-	c.register("following", handleFollowing)
+	c.register("follow", middlewareLoggedIn(handleFollow))
+	c.register("following", middlewareLoggedIn(handleFollowing))
 
 	args := os.Args
 
@@ -53,6 +53,7 @@ func main() {
 		Name: cmdName,
 		Args: arguments,
 	}
+
 	err = c.run(s, command)
 	if err != nil {
 		log.Fatal(err)
