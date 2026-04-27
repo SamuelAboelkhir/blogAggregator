@@ -16,9 +16,9 @@ func handleAddFeed(s *state, cmd command) error {
 		return errors.New("please provide a name and url")
 	}
 
-	userName := s.config.CurrentUserName
+	currentUser := s.config.CurrentUserName
 
-	user, err := s.db.GetUser(context.Background(), userName)
+	user, err := s.db.GetUser(context.Background(), currentUser)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -31,13 +31,28 @@ func handleAddFeed(s *state, cmd command) error {
 		Url:       cmd.Args[1],
 		UserID:    user.ID,
 	}
-	result, err := s.db.CreateFeed(context.Background(), newFeed)
+	feed, err := s.db.CreateFeed(context.Background(), newFeed)
 	if err != nil {
 		log.Fatal(err)
 	}
 
+	feedParams := database.CreateFeedFollowParams{
+		ID:        uuid.New(),
+		CreatedAt: time.Now(),
+		UpdatedAt: time.Now(),
+		UserID:    user.ID,
+		FeedID:    feed.ID,
+	}
+
+	newFollow, err := s.db.CreateFeedFollow(context.Background(), feedParams)
+	if err != nil {
+		return err
+	}
+
 	fmt.Println("Feed created successfully")
-	fmt.Println(result)
+	fmt.Println(feed)
+	fmt.Println("Feed added to user's feeds")
+	fmt.Println(newFollow.FeedName, currentUser)
 
 	return nil
 }
