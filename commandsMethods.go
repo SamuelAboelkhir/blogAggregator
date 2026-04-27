@@ -1,12 +1,12 @@
 package main
 
-import "log"
+import "errors"
 
 func (c *commands) run(s *state, cmd command) error {
 	function, ok := c.registeredCommands[cmd.Name]
 
 	if !ok {
-		log.Fatalf("Command not found")
+		return errors.New("Command not found")
 	}
 
 	return function(s, cmd)

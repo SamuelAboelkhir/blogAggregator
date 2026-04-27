@@ -2,8 +2,8 @@ package main
 
 import (
 	"context"
+	"errors"
 	"fmt"
-	"log"
 	"time"
 
 	"github.com/SamuelAboelkhir/blogAggregator/internal/database"
@@ -12,7 +12,7 @@ import (
 
 func handleFollow(s *state, cmd command) error {
 	if len(cmd.Args) <= 0 {
-		log.Fatal("A URL is required")
+		return errors.New("a URL is required")
 	}
 	url := cmd.Args[0]
 

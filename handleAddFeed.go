@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"log"
 	"time"
 
 	"github.com/SamuelAboelkhir/blogAggregator/internal/database"
@@ -20,7 +19,7 @@ func handleAddFeed(s *state, cmd command) error {
 
 	user, err := s.db.GetUser(context.Background(), currentUser)
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
 
 	newFeed := database.CreateFeedParams{
@@ -33,7 +32,7 @@ func handleAddFeed(s *state, cmd command) error {
 	}
 	feed, err := s.db.CreateFeed(context.Background(), newFeed)
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
 
 	feedParams := database.CreateFeedFollowParams{

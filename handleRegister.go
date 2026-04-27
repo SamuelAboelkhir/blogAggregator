@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"log"
 	"time"
 
 	"github.com/SamuelAboelkhir/blogAggregator/internal/database"
@@ -19,7 +18,8 @@ func handleRegister(s *state, cmd command) error {
 
 	existing, err := s.db.GetUser(context.Background(), userName)
 	if err == nil {
-		log.Fatalf(existing.Name, "already exists")
+		error := fmt.Sprintf("%s already exists", existing.Name)
+		return errors.New(error)
 	}
 
 	newUser := database.CreateUserParams{
@@ -31,7 +31,7 @@ func handleRegister(s *state, cmd command) error {
 
 	new, err := s.db.CreateUser(context.Background(), newUser)
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
 
 	s.config.SetUser(userName)
