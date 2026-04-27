@@ -6,7 +6,7 @@ func (c *commands) run(s *state, cmd command) error {
 	function, ok := c.registeredCommands[cmd.Name]
 
 	if !ok {
-		return errors.New("Command not found")
+		return errors.New("command not found")
 	}
 
 	return function(s, cmd)
