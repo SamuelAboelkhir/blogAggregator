@@ -42,7 +42,6 @@ func handleAddFeed(s *state, cmd command, user database.User) error {
 	}
 
 	fmt.Println("Feed created successfully")
-	fmt.Println(feed)
 	fmt.Println("Feed added to user's feeds")
 	fmt.Println(newFollow.FeedName, user.Name)
 
