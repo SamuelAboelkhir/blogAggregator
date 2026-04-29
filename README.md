@@ -1,12 +1,12 @@
-# Gator blog aggregator
-
+# Gator
+- This is a multi-user CLI tool for aggregating RSS feeds, and posts viewing.
 ## Requirements
 - To build this app, it's necessary to have 
     - Go version 1.26.2 
     - postgres 
     - docker
     - linux
-- The app utilizes a dockerized postgres DB intsance to store all data
+- The app utilizes a dockerized postgres DB intsance to store all data (you can also use a local instance)
 - The docker command
 ```bash
 docker run --name gator -p 5432:5432 -e POSTGRES_USER=gator -e POSTGRES_PASSWORD=gator -d postgres
@@ -34,7 +34,7 @@ go install github.com/SamuelAboelkhir/blogAggregator@latest
 - Here's my config file as an example
 ```json
 {
-    "db_url":"postgres://gator:gator@localhost:5432/gator?sslmode=disable",
+    "db_url":"postgres://gator:gator@localhost:5432/gator?sslmode=disable"
 }
 ```
 - It's important to specify the connection string of your postgres DB
@@ -46,19 +46,20 @@ go install github.com/SamuelAboelkhir/blogAggregator@latest
 }
 ```
 ## Commands
+- The installed app will be called "blogAggregator" due the repo name choice, so I recommend aliasing it to "gator", or any other name you like in your shell config file
 - As a blog aggregator, this app can
-    - `addfeed <url>`: Given a url for a blog feed to follow
-    - `agg <time-between-requests>`: Aggregate posts from the feed
+    - `blogAggregator addfeed <url>`: Given a url for a blog feed to follow
+    - `blogAggregator agg <time-between-requests>`: Aggregate posts from the feed
         - This command expects a string time value that in parsed into a duration internally to specify the intervals between aggregations
-    - `following`: Display your followed feeds
-    - `browse`: Browse the last few posts (2 by default but you can change the limit)
-    - `login <name>`: Login to specific users
-    - `register <name>`: Register new users
-    - `follow <existing-feed-url>`: Follow any of the existing feeds
+    - `blogAggregator following`: Display your followed feeds
+    - `blogAggregator browse`: Browse the last few posts (2 by default but you can change the limit)
+    - `blogAggregator login <name>`: Login to specific users
+    - `blogAggregator register <name>`: Register new users
+    - `blogAggregator follow <existing-feed-url>`: Follow any of the existing feeds
         - Note that the feed must have already been added to the database first
-    - `unfollow <url>`: Unfollow feeds
-    - `users`: Display all users (highlights the currently logged in one)
-    - `reset`: Reset the database
+    - `blogAggregator unfollow <url>`: Unfollow feeds
+    - `blogAggregator users`: Display all users (highlights the currently logged in one)
+    - `blogAggregator reset`: Reset the database
 
 ## Disclaimer
 - This app is part of the [https://www.boot.dev](https://www.boot.dev) backend engineer course
