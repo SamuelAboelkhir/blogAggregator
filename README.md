@@ -58,4 +58,7 @@ go install github.com/SamuelAboelkhir/blogAggregator@latest
         - Note that the feed must have already been added to the database first
     - `unfollow <url>`: Unfollow feeds
     - `users`: Display all users (highlights the currently logged in one)
-    - `resset`: Reset the database
+    - `reset`: Reset the database
+
+## Disclaimer
+- This app is part of the [https://www.boot.dev](https://www.boot.dev) backend engineer course
