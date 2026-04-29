@@ -12,13 +12,17 @@ func handleFeeds(s *state, cmd command) error {
 	}
 
 	for _, feed := range feeds {
-		fmt.Println(feed.Name)
-		fmt.Println(feed.Url)
+		fmt.Printf("* ID:            %s\n", feed.ID)
+		fmt.Printf("* Created:       %v\n", feed.CreatedAt)
+		fmt.Printf("* Updated:       %v\n", feed.UpdatedAt)
+		fmt.Printf("* Name:          %s\n", feed.Name)
+		fmt.Printf("* URL:           %s\n", feed.Url)
+		fmt.Printf("* LastFetchedAt: %v\n", feed.LastFetchedAt.Time)
 		user, err := s.db.GetUserById(context.Background(), feed.UserID)
 		if err != nil {
 			return err
 		}
-		fmt.Println(user.Name)
+		fmt.Printf("* User:          %s\n", user.Name)
 	}
 	return nil
 }
